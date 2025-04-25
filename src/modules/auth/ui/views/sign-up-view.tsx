@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useTRPC } from "@/trpc/client"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -25,11 +26,13 @@ export const SignUpView = () => {
 
     const trpc = useTRPC()
     const router = useRouter()
+    const queryClient = useQueryClient()
     const register = useMutation(trpc.auth.register.mutationOptions({
         onError: (err) => {
             toast.error(err.message)
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
             router.push("/")
         }
     }))
@@ -132,7 +135,13 @@ export const SignUpView = () => {
                             variant="elevated"
                             className="bg-black text-white hover:bg-pink-400 hover:text-primary"
                         >
-                            Create Account
+                            {register.isPending ?
+                                <>
+                                    <div className="flex items-center gap-2">
+                                        <Loader2 className="animate-spin" size={16} />
+                                        Registering please wait...
+                                    </div>
+                                </> : "Create Account"}
                         </Button>
                         <p className="font-semibold">You agree to our <Link href="#" className="underline">Terms of Use</Link> and <Link className="underline" href="#">Privacy Policy</Link> .</p>
                     </form>
