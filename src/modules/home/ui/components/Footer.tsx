@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Twitter, Youtube, Instagram, Facebook } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
-import logo from "../../../../public/logo.png"
+import logo from "../../../../../public/logo.png"
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
