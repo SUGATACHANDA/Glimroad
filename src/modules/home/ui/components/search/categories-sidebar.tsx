@@ -31,7 +31,7 @@ export const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
         onOpenChange(open)
     }
 
-    const handleSubCatClick = (category: CategoriesGetManyOutput[1]) => {
+    const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
         if (category.subcategories && category.subcategories.length > 0) {
             setParentCategories(category.subcategories as CategoriesGetManyOutput)
             setSelectedCategory(category)
@@ -82,7 +82,7 @@ export const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
                         <button
                             key={cat.slug}
                             className="w-full text-left p-4 hover:bg-black hover:text-white flex items-center justify-between text-base font-medium cursor-pointer"
-                            onClick={() => handleSubCatClick(cat)}
+                            onClick={() => handleCategoryClick(cat)}
                         >
                             {cat.name}
                             {cat.subcategories && cat.subcategories.length > 0 && (
