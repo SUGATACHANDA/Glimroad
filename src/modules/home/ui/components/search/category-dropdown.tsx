@@ -3,10 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
-import { useDropDownPosition } from "./use-dropdown-position";
 import { SubCategoryMenu } from "./subcategory-menu";
 import Link from "next/link";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
@@ -19,9 +17,6 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
 
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
-    const { getDropdownPosition } = useDropDownPosition(dropdownRef)
-
-    const dropdownPosition = getDropdownPosition()
 
     const onMouseEnter = () => {
         if (category.subcategories) {
@@ -71,13 +66,10 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
                     ></div>
                 )}
             </div>
-            <ScrollArea className="flex flex-col overflow-y-auto h-full">
-                <SubCategoryMenu
-                    category={category}
-                    isOpen={isOpen}
-                    position={dropdownPosition}
-                />
-            </ScrollArea>
+            <SubCategoryMenu
+                category={category}
+                isOpen={isOpen}
+            />
         </div>
     )
 }

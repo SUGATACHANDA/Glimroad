@@ -6,10 +6,9 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 interface Props {
     category: CategoriesGetManyOutput[1]
     isOpen: boolean
-    position: { top: number; left: number }
 }
 
-export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
+export const SubCategoryMenu = ({ category, isOpen }: Props) => {
 
     if (!isOpen || !category.subcategories || category.subcategories.length === 0) {
         return null
@@ -19,10 +18,10 @@ export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
 
     return (
         <div
-            className="fixed z-100"
+            className="absolute z-100"
             style={{
-                top: position.top,
-                left: position.left
+                top: "100%",
+                left: 0
             }}
         >
             <div className="h-3 w-60" />
@@ -30,9 +29,7 @@ export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
                 style={{ backgroundColor }}
                 className="w-60 text-black rounded-md overflow-hidden border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[2px] -translate-y-[2px]"
             >
-                <div
-                    className="max-h-80 overflow-y-auto custom-scrollbar" // Added custom-scrollbar class
-                >
+                <div>
                     {category.subcategories?.map((subcategory: Category) => (
                         <Link
                             key={subcategory.slug}
@@ -42,6 +39,9 @@ export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
                             {subcategory.name}
                         </Link>
                     ))}
+                    {/* <div className="mt-auto flex justify-end pr-4">
+                        <Image src="/funky_1.png" width={80} height={0} alt="Character" className="h-auto" />
+                    </div> */}
                 </div>
             </div>
         </div>
