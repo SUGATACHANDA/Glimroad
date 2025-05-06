@@ -70,7 +70,7 @@ export const Navbar = () => {
 
             <NavbarSidebar
                 open={isSidebarOpen}
-                onOpenChange={setIsSidebarOpen}
+                onOpenChangeAction={setIsSidebarOpen}
                 items={navbarItems}
             />
 
