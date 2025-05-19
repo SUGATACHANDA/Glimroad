@@ -42,7 +42,7 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
             queryClient.invalidateQueries(trpc.reviews.getOne.queryOptions({
                 productId
             }))
-            toast.success("Edited review posted successfully")
+            toast.success("Review posted successfully")
             setIsPreview(true)
         },
         onError: (error) => {
