@@ -169,9 +169,12 @@ export interface Tenant {
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * Stripe Account ID associated with your shop
+   */
   stripeAccountId: string;
   /**
-   * Ypu cannot create products until you submitted your Stripe details
+   * You cannot create products until you submitted your Stripe details
    */
   stripeDetailsSubmitted?: boolean | null;
   updatedAt: string;
@@ -230,7 +233,11 @@ export interface Product {
   category?: (string | null) | Category;
   tags?: (string | Tag)[] | null;
   image?: (string | null) | Media;
-  refundPolicy?: ('30 Days' | '14 Days' | '7 Days' | '3 Days' | '1 Day' | 'Non-returnable') | null;
+  refundPolicy?: ('30 days' | '14 days' | '7 days' | '3 days' | '1 day' | 'Non-returnable') | null;
+  /**
+   * Protected content only visible to customers after purchase. Add product documentation, downloadable files, getting started guides and bonus materials. Supports Markdown formatting
+   */
+  content?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -254,6 +261,9 @@ export interface Order {
   name: string;
   user: string | User;
   product: string | Product;
+  /**
+   * Stripe checkout session assciated with the order.
+   */
   stripeCheckoutSessionId: string;
   updatedAt: string;
   createdAt: string;
@@ -419,6 +429,7 @@ export interface ProductsSelect<T extends boolean = true> {
   tags?: T;
   image?: T;
   refundPolicy?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
