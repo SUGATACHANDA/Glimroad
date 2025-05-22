@@ -5,6 +5,7 @@ import { z } from "zod";
 import { sortValues } from "../search-params";
 import { DEFAULT_LIMIT } from "@/constants";
 import { headers as getHeaders } from "next/headers";
+import { TRPCError } from "@trpc/server";
 
 
 export const productsRouter = createTRPCRouter({
@@ -23,6 +24,12 @@ export const productsRouter = createTRPCRouter({
                 content: false
             },
         })
+        if (product.isArchived) {
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Product not found"
+            })
+        }
         let isPurchased = false
         if (session.user) {
             const ordersData = await ctx.db.find({
@@ -109,7 +116,11 @@ export const productsRouter = createTRPCRouter({
         tenantSlug: z.string().nullable().optional()
     })).query(async ({ ctx, input }) => {
 
-        const where: Where = {}
+        const where: Where = {
+            isArchived: {
+                not_equals: true
+            },
+        }
 
         let sort: Sort = "-createdAt"
 
@@ -138,6 +149,10 @@ export const productsRouter = createTRPCRouter({
         if (input.tenantSlug) {
             where["tenant.slug"] = {
                 equals: input.tenantSlug
+            }
+        } else {
+            where["isPrivate"] = {
+                not_equals: true
             }
         }
 
